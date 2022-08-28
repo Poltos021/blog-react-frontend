@@ -2,12 +2,24 @@ import React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Grid from '@mui/material/Grid';
+import { useDispatch, useSelector  } from 'react-redux';
 
 import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
+import { fetchPosts } from '../redux/slices/posts.js';
 
 export const Home = () => {
+  const dispatch = useDispatch();
+  const { posts } = useSelector((state) => state.posts);
+
+  console.log(posts);
+  const isPostsLoading = posts.status === 'loading';
+
+  React.useEffect(() => {
+    dispatch(fetchPosts());
+  });
+
   return (
     <>
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
@@ -16,7 +28,7 @@ export const Home = () => {
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
-          {[...Array(5)].map(() => (
+        {[...Array(5)].map(() => (
             <Post
               id={1}
               title="Roast the code #1 | Rock Paper Scissors"
