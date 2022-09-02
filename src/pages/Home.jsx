@@ -12,6 +12,7 @@ import { fetchPosts, fetchTags } from '../redux/slices/posts.js';
 export const Home = () => {
   const dispatch = useDispatch();
   const { posts, tags } = useSelector((state) => state.posts);
+  const userData = useSelector((state) => state.auth.data)
 
   console.log(posts);
   const isPostsLoading = posts.status === 'loading';
@@ -38,13 +39,13 @@ export const Home = () => {
                 key={index}
                 id={obj._id}
                 title={obj.title}
-                imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
+                imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
                 user={obj.user}
                 createdAt={obj.createdAt}
                 viewsCount={obj.viewsCount}
                 commentsCount={3}
                 tags={obj.tags}
-                // isEditable={userData?._id === obj.user._id}
+                isEditable={userData?._id === obj.user._id}
               />
             ),
           )}
@@ -70,6 +71,10 @@ export const Home = () => {
             ]}
             isLoading={false}
           />
+          {/* <iframe src="https://discord.com/widget?id=415542743427973131&theme=dark" 
+              width="350" height="500" allowtransparency="true" 
+              frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+        </iframe> */}
         </Grid>
       </Grid>
     </>
